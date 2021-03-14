@@ -9,7 +9,7 @@ import java.net.UnknownHostException;
 import sscgi.SSCGIMessage;
 
 public class SSCGIClient {
-
+	
 	private String host;
 	private int port;
 
@@ -17,7 +17,7 @@ public class SSCGIClient {
 
 	private InputStream socketIn;
 	private OutputStream socketOut;
-
+	
 	public SSCGIClient(String host, int port) {
 		this.host = host;
 		this.port = port;
@@ -49,7 +49,8 @@ public class SSCGIClient {
 			setup();
 			request.serialize(socketOut);
 		}
-		return new SSCGIMessage(socketIn);
+		SSCGIMessage ret = new SSCGIMessage(socketIn);
+		return ret;
 	}
 
 }

@@ -15,7 +15,7 @@ public class SSCGIClientHandler implements Runnable {
 
 	private InputStream socketIn;
 	private OutputStream socketOut;
-
+	
 	public SSCGIClientHandler(Socket socket, SSCGIRequestHandler requestHandler) throws IOException {
 		this.socket = socket;
 		
