@@ -21,12 +21,19 @@ public class SSCGIClient {
 	public SSCGIClient(String host, int port) {
 		this.host = host;
 		this.port = port;
+		try {
+			setup();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void setup() throws UnknownHostException, IOException {
 		if (socket == null || socket.isClosed()) {
 			socket = new Socket(host, port);
-			
+
 			socket.setKeepAlive(true);
 			socket.setTcpNoDelay(true);
 
@@ -36,8 +43,12 @@ public class SSCGIClient {
 	}
 
 	public SSCGIMessage sendAndReceiveMessage(SSCGIMessage request) throws IOException {
-		setup();
-		request.serialize(socketOut);
+		try {
+			request.serialize(socketOut);
+		} catch (IOException ex) {
+			setup();
+			request.serialize(socketOut);
+		}
 		return new SSCGIMessage(socketIn);
 	}
 

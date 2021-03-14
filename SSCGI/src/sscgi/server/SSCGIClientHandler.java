@@ -9,8 +9,6 @@ import sscgi.SSCGIMessage;
 
 public class SSCGIClientHandler implements Runnable {
 	
-	private int clientHandlerId;
-
 	private SSCGIRequestHandler requestHandler;
 
 	private Socket socket;
@@ -18,9 +16,7 @@ public class SSCGIClientHandler implements Runnable {
 	private InputStream socketIn;
 	private OutputStream socketOut;
 
-	public SSCGIClientHandler(int id, Socket socket, SSCGIRequestHandler requestHandler) throws IOException {
-		this.clientHandlerId = id;
-		
+	public SSCGIClientHandler(Socket socket, SSCGIRequestHandler requestHandler) throws IOException {
 		this.socket = socket;
 		
 		socket.setKeepAlive(true);

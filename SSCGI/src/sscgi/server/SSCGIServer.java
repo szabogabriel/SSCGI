@@ -24,12 +24,10 @@ public class SSCGIServer {
 	}
 	
 	private void handleNewConnection() {
-		int counter = 1;
 		while (true) {
 			try {
 				Socket socket = ss.accept();
-				System.out.println("New executor service: " + counter);
-				executor.execute(new SSCGIClientHandler(counter++, socket, requestHandler));
+				executor.execute(new SSCGIClientHandler(socket, requestHandler));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
