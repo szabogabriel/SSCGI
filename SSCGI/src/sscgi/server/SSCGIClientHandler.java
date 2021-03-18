@@ -37,10 +37,13 @@ public class SSCGIClientHandler implements Runnable {
 				request = new SSCGIMessage(socketIn);
 				response = requestHandler.handle(request);
 				response.serialize(socketOut);
-				socketOut.flush();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			if ("Stream closed.".equals(e.getMessage())) {
+				System.out.println("Stream closed.");
+			} else {
+				e.printStackTrace();
+			}
 		} finally {
 			try {
 				if (!socket.isClosed()) {

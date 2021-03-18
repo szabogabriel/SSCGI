@@ -43,6 +43,7 @@ public class SSCGIClient {
 	public SSCGIMessage sendAndReceiveMessage(SSCGIMessage request) throws IOException {
 		try {
 			request.serialize(socketOut);
+			socketOut.flush();
 		} catch (Exception ex) {
 			setup();
 			request.serialize(socketOut);

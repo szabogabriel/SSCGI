@@ -54,7 +54,10 @@ public class SSCGIMessage {
 	
 	private byte[] read(InputStream socketIn, int length) throws IOException {
 		byte[] buffer = new byte[length];
-		socketIn.read(buffer, 0, length);
+		int read = socketIn.read(buffer, 0, length);
+		if (read == -1) {
+			throw new IOException("Stream closed.");
+		}
 		return buffer;
 	}
 	
@@ -63,6 +66,9 @@ public class SSCGIMessage {
 		int buf;
 		
 		while ((buf = socketIn.read()) != ':') {
+			if (buf == -1) {
+				throw new IOException("Stream closed.");
+			}
 			ret = (ret * 10) + (buf - '0');
 		}
 		

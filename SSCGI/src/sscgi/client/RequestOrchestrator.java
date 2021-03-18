@@ -25,6 +25,7 @@ public class RequestOrchestrator {
 			handlers.offer(handler);
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
+			//TODO: return handle, if there was an error during communication.
 		}
 		return ret;
 	}
