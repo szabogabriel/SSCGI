@@ -6,6 +6,8 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import javax.net.SocketFactory;
+
 import sscgi.SSCGIMessage;
 
 public class SSCGIClient {
@@ -17,8 +19,11 @@ public class SSCGIClient {
 
 	private InputStream socketIn;
 	private OutputStream socketOut;
+	
+	private SocketFactory socketFactory;
 
-	public SSCGIClient(String host, int port) {
+	public SSCGIClient(String host, int port, SocketFactory socketFactory) {
+		this.socketFactory = socketFactory;
 		this.host = host;
 		this.port = port;
 		try {
@@ -31,7 +36,7 @@ public class SSCGIClient {
 	}
 
 	private void setup() throws UnknownHostException, IOException {
-		socket = new Socket(host, port);
+		socket = socketFactory.createSocket(host, port);
 
 		socket.setKeepAlive(true);
 		socket.setTcpNoDelay(true);
