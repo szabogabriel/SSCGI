@@ -21,10 +21,10 @@ public class SSCGIMessage {
 	}
 	
 	public SSCGIMessage(InputStream in) throws IOException {
-		int len = readLength(in);
-		headers = read(in, len);
-		len = readLength(in);
-		body = read(in, len);
+		int headerLen = toInt(read(in, 4));
+		int bodyLen = toInt(read(in, 4));
+		headers = read(in, headerLen);
+		body = read(in, bodyLen);
 	}
 	
 	public void setHeaders(byte[] headers) {
@@ -44,35 +44,37 @@ public class SSCGIMessage {
 	}
 	
 	public void serialize(OutputStream out) throws IOException {
-		out.write(Integer.toString(headers.length).getBytes());
-		out.write(58); // the character ':'
+		out.write(toByteArray(headers.length));
+		out.write(toByteArray(body.length));
 		out.write(headers);
-		out.write(Integer.toString(body.length).getBytes());
-		out.write(58); // the character ':'
 		out.write(body);
 	}
 	
 	private byte[] read(InputStream socketIn, int length) throws IOException {
 		byte[] buffer = new byte[length];
 		int read = socketIn.read(buffer, 0, length);
+		
 		if (read == -1) {
 			throw new IOException("Stream closed.");
 		}
+		
+		if (read != length) {
+			throw new IOException("Data not sufficient, or stream prematurally closed.");
+		}
+		
 		return buffer;
 	}
 	
-	private int readLength(InputStream socketIn) throws IOException {
-		int ret = 0;
-		int buf;
-		
-		while ((buf = socketIn.read()) != ':') {
-			if (buf == -1) {
-				throw new IOException("Stream closed.");
-			}
-			ret = (ret * 10) + (buf - '0');
-		}
-		
-		return ret;
+	private byte[] toByteArray(int value) {
+		return new byte[] {
+	            (byte)(value >>> 24),
+	            (byte)(value >>> 16),
+	            (byte)(value >>> 8),
+	            (byte)value};
+	}
+	
+	private int toInt(byte[] value) {
+		return value[0] << 24 | (value[1] & 0xFF) << 16 | (value[2] & 0xFF) << 8 | (value[3] & 0xFF);
 	}
 
 }
