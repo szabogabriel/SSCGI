@@ -1,6 +1,6 @@
 package sscgi.server;
 
-import sscgi.SSCGIMessage;
+import sscgi.data.SSCGIMessage;
 
 public interface SSCGIRequestHandler {
 

@@ -3,14 +3,17 @@ package sscgi;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
 
 import sscgi.client.RequestOrchestrator;
+import sscgi.data.SSCGIMessage;
+import sscgi.data.http.Header;
+import sscgi.data.http.HttpMessage;
 import sscgi.server.SSCGIServer;
 
 public class HttpTest {
@@ -27,7 +30,7 @@ public class HttpTest {
 
 		long start = System.currentTimeMillis();
 
-		IntStream.range(0, 10000).parallel().forEach(i -> {
+		IntStream.range(0, 100000).parallel().forEach(i -> {
 			try {
 				Optional<SSCGIMessage> response;
 
@@ -47,9 +50,9 @@ public class HttpTest {
 	}
 
 	private HttpMessage createRequest() throws IOException {
-		Map<String, String> headers = new HashMap<>();
-		headers.put("Content-Type", "text/plain");
-		headers.put("Request-method", "GET");
+		List<Header> headers = new ArrayList<>();
+		headers.add(new Header("Content-Type", "text/plain"));
+		headers.add(new Header("Request-method", "GET"));
 
 		HttpMessage req = new HttpMessage(headers, "World");
 
@@ -59,7 +62,7 @@ public class HttpTest {
 	private static SSCGIMessage handle(SSCGIMessage req) {
 		try {
 			HttpMessage ret = null, hreq = new HttpMessage(req);
-			Map<String, String> headers = hreq.getHeaders();
+			List<Header> headers = hreq.getHeaders();
 			int size = headers.size();
 			String body = hreq.getBody();
 			String retMessage = "Hello " + size + " times, " + body;

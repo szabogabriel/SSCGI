@@ -1,4 +1,4 @@
-package sscgi;
+package sscgi.data;
 
 import java.io.IOException;
 import java.io.InputStream;

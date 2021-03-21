@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-import sscgi.SSCGIMessage;
+import sscgi.data.SSCGIMessage;
 
 public class SSCGIClientHandler implements Runnable {
 	

@@ -7,7 +7,7 @@ import java.util.concurrent.BlockingQueue;
 
 import javax.net.SocketFactory;
 
-import sscgi.SSCGIMessage;
+import sscgi.data.SSCGIMessage;
 
 public class RequestOrchestrator {
 	

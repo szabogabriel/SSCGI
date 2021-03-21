@@ -8,7 +8,7 @@ import java.net.UnknownHostException;
 
 import javax.net.SocketFactory;
 
-import sscgi.SSCGIMessage;
+import sscgi.data.SSCGIMessage;
 
 public class SSCGIClient {
 

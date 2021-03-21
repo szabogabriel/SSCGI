@@ -2,7 +2,7 @@ package sscgi.demo;
 
 import java.io.IOException;
 
-import sscgi.SSCGIMessage;
+import sscgi.data.SSCGIMessage;
 import sscgi.server.SSCGIServer;
 
 public class EchoServer {

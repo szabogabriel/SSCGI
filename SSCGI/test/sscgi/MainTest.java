@@ -10,6 +10,7 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 
 import sscgi.client.RequestOrchestrator;
+import sscgi.data.SSCGIMessage;
 import sscgi.server.SSCGIServer;
 
 public class MainTest {
@@ -25,7 +26,7 @@ public class MainTest {
 		
 		long start = System.currentTimeMillis();
 		
-		IntStream.range(0, 10000).parallel().forEach(i -> {
+		IntStream.range(0, 100000).parallel().forEach(i -> {
 			Optional<SSCGIMessage> response = client.sendrequest(new SSCGIMessage("".getBytes(), "World".getBytes()));
 			assertEquals("Hello, World", new String(response.get().getBody()));
 		});
