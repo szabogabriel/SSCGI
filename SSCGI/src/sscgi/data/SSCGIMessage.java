@@ -15,6 +15,13 @@ public class SSCGIMessage {
 		this(EMPTY, EMPTY);
 	}
 	
+	public SSCGIMessage(byte[] headers, byte[] body) {
+		if (headers == null || body == null) throw new NullPointerException();
+		
+		setHeaders(headers);
+		setBody(body);
+	}
+	
 	public SSCGIMessage(byte[] data) {
 		int headerLen = toInt(data);
 		int bodyLen = toInt(data, 4);
@@ -26,13 +33,6 @@ public class SSCGIMessage {
 		if (bodyLen > 0) {
 			System.arraycopy(data, 8 + headerLen, body, 0, bodyLen);
 		}
-	}
-	
-	public SSCGIMessage(byte[] headers, byte[] body) {
-		if (headers == null || body == null) throw new NullPointerException();
-		
-		setHeaders(headers);
-		setBody(body);
 	}
 	
 	public SSCGIMessage(InputStream in) throws IOException {
